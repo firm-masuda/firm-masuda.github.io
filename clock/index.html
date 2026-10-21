@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChromaClock | 美しく変化するオーロラグラデーション時計</title>
+  <meta name="description" content="現在時刻に合わせて空と光のグラデーションがゆっくりと滑らかに移り変わる、モダンで洗練されたプレミアム時計ウェブアプリケーション。">
+  
+  <!-- Google Fonts: Space Grotesk, Outfit, Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 背景グラデーションキャンバス / オーロラオーブ -->
+  <div class="gradient-canvas-container" id="gradientContainer">
+    <div class="aurora-orb orb-1" id="orb1"></div>
+    <div class="aurora-orb orb-2" id="orb2"></div>
+    <div class="aurora-orb orb-3" id="orb3"></div>
+    <div class="aurora-orb orb-4" id="orb4"></div>
+    <div class="noise-overlay"></div>
+  </div>
+
+  <main class="clock-app" id="clockApp">
+    <!-- ヘッダー情報バー -->
+    <header class="app-header">
+      <div class="time-phase-badge" id="timePhaseBadge">
+        <span class="phase-icon" id="phaseIcon">☀️</span>
+        <span class="phase-name" id="phaseName">Sunrise Glow</span>
+      </div>
+      <div class="location-zone">
+        <span class="live-dot"></span>
+        <span id="timezoneText">TOKYO (JST / UTC+9)</span>
+      </div>
+    </header>
+
+    <!-- メイン時計ディスプレイ -->
+    <section class="clock-centerpiece" id="clockCenterpiece">
+      <div class="glass-clock-card" id="clockCard">
+        <!-- 日付表示 -->
+        <div class="date-container">
+          <span class="date-weekday" id="dateWeekday">Thursday</span>
+          <span class="date-divider">•</span>
+          <span class="date-full" id="dateFull">October 22, 2026</span>
+          <span class="date-jp" id="dateJp">令和8年 10月22日 (木)</span>
+        </div>
+
+        <!-- 巨大時計表示 -->
+        <h1 class="time-display" id="timeDisplay" aria-label="現在時刻">
+          <span class="time-digit hours" id="hours">00</span>
+          <span class="time-colon">:</span>
+          <span class="time-digit minutes" id="minutes">00</span>
+          <span class="time-sub-container">
+            <span class="time-colon seconds-colon">:</span>
+            <span class="time-digit seconds" id="seconds">00</span>
+            <span class="time-ampm" id="ampm">AM</span>
+          </span>
+        </h1>
+
+        <!-- 1日の進捗バー (Day Progress) -->
+        <div class="progress-section" title="本日の経過率">
+          <div class="progress-meta">
+            <span class="progress-label">Today's Progress</span>
+            <span class="progress-percent" id="dayProgressPercent">0.0%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="dayProgressBar"></div>
+          </div>
+        </div>
+
+        <!-- 名言・インスピレーションティッカー -->
+        <div class="quote-container" id="quoteContainer">
+          <p class="quote-text" id="quoteText">"Time is a created thing. To say 'I don't have time' is to say 'I don't want to.'"</p>
+          <span class="quote-author" id="quoteAuthor">— Lao Tzu</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- インタラクティブ コントロールパネル -->
+    <footer class="controls-panel">
+      <!-- フローティンググラスバー -->
+      <nav class="floating-dock glass-panel">
+        <button class="dock-btn" id="formatToggleBtn" title="12時間 / 24時間切り替え">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span id="formatBtnLabel">24H</span>
+        </button>
+
+        <button class="dock-btn" id="secToggleBtn" title="秒表示の切り替え">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+          <span>Sec</span>
+        </button>
+
+        <button class="dock-btn" id="themePickerBtn" title="カラーテーマ選択">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+          </svg>
+          <span>Theme</span>
+        </button>
+
+        <button class="dock-btn" id="timeSliderToggleBtn" title="時間シミュレーター（グラデーションプレビュー）">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="4" y1="21" x2="4" y2="14"></line>
+            <line x1="4" y1="10" x2="4" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12" y2="3"></line>
+            <line x1="20" y1="21" x2="20" y2="16"></line>
+            <line x1="20" y1="12" x2="20" y2="3"></line>
+            <line x1="1" y1="14" x2="7" y2="14"></line>
+            <line x1="9" y1="8" x2="15" y2="8"></line>
+            <line x1="17" y1="16" x2="23" y2="16"></line>
+          </svg>
+          <span>Preview</span>
+        </button>
+
+        <button class="dock-btn" id="soundToggleBtn" title="アンビエントリラックス音 (雨音・ホワイトノイズ)">
+          <svg class="icon" id="soundIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <span id="soundLabel">Sound</span>
+        </button>
+
+        <button class="dock-btn" id="fullscreenBtn" title="全画面表示 (F)">
+          <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+          <span>Full</span>
+        </button>
+      </nav>
+
+      <!-- 時間シミュレーターポップアップ（スライダーで朝昼夕夜のグラデーション変化を自由に体験） -->
+      <div class="slider-drawer glass-panel" id="sliderDrawer">
+        <div class="drawer-header">
+          <span>🌅 Time Warp Simulator</span>
+          <button class="text-btn" id="resetRealtimeBtn">リアルタイムに戻す</button>
+        </div>
+        <div class="slider-controls">
+          <input type="range" id="timeSlider" min="0" max="1439" step="1" value="0">
+          <div class="slider-markers">
+            <span>00:00 深夜</span>
+            <span>06:00 朝焼け</span>
+            <span>12:00 正午</span>
+            <span>18:00 夕暮れ</span>
+            <span>23:59 夜</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- テーマ選択モーダル/ドロップダウン -->
+      <div class="theme-drawer glass-panel" id="themeDrawer">
+        <div class="theme-option active" data-theme="dynamic">
+          <span class="theme-swatch dynamic-swatch"></span>
+          <span>時刻連動グラデーション (おすすめ)</span>
+        </div>
+        <div class="theme-option" data-theme="aurora">
+          <span class="theme-swatch aurora-swatch"></span>
+          <span>極光オーロラ (Aurora Borealis)</span>
+        </div>
+        <div class="theme-option" data-theme="sunset">
+          <span class="theme-swatch sunset-swatch"></span>
+          <span>黄昏サンセット (Golden Sunset)</span>
+        </div>
+        <div class="theme-option" data-theme="cyberpunk">
+          <span class="theme-swatch cyber-swatch"></span>
+          <span>サイバーネオン (Cyber Midnight)</span>
+        </div>
+        <div class="theme-option" data-theme="pastel">
+          <span class="theme-swatch pastel-swatch"></span>
+          <span>ドリーミーパステル (Dreamy Sky)</span>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
