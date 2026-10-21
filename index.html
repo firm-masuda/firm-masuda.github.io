@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>firm-masuda | Web Apps & Projects</title>
+  <meta name="description" content="firm-masudaが制作したWebアプリケーション・実験プロジェクトのコレクション。オーロラグラデーション時計 ChromaClock などを公開中。">
+  
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --card-hover-border: rgba(147, 197, 253, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #818cf8;
+      --accent-rose: #f43f5e;
+      --glow-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 24px 80px;
+    }
+
+    /* 背景のアンビエント発光 */
+    .ambient-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.35;
+      animation: float 16s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, #38bdf8 0%, transparent 70%);
+      top: -150px;
+      left: 10%;
+    }
+
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, #818cf8 0%, transparent 70%);
+      bottom: -150px;
+      right: 10%;
+      animation-delay: -8s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, 30px) scale(1.1); }
+    }
+
+    /* メインコンテナ */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      width: 100%;
+    }
+
+    /* ヘッダー */
+    header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent-cyan);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(180deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* アプリカードグリッド */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+
+    /* カードデザイン */
+    .app-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+
+    .app-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.08), transparent 40%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .app-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--card-hover-border);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.15);
+    }
+
+    .app-card:hover::before {
+      opacity: 1;
+    }
+
+    /* フィーチャーカード (ChromaClock) */
+    .app-card.featured {
+      grid-column: 1 / -1;
+      padding: 40px;
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
+      border: 1px solid rgba(147, 197, 253, 0.2);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .clock-preview-badge {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 12px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--accent-cyan);
+      letter-spacing: 0.05em;
+    }
+
+    .card-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .card-body p {
+      color: var(--text-muted);
+      line-height: 1.65;
+      font-size: 1rem;
+      margin-bottom: 24px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #cbd5e1;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 20px;
+      margin-top: auto;
+    }
+
+    .card-link-text {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.2s ease;
+    }
+
+    .app-card:hover .card-link-text {
+      gap: 12px;
+    }
+
+    .arrow-icon {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    .app-card:hover .arrow-icon {
+      transform: translateX(4px);
+    }
+
+    /* フッター */
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    footer a:hover {
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景発光 -->
+  <div class="ambient-bg">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+  </div>
+
+  <div class="container">
+    <header>
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Portfolio & Apps</span>
+      </div>
+      <h1>firm-masuda's Projects</h1>
+      <p class="subtitle">制作したWebアプリケーションや実験的プロジェクトを公開しています。</p>
+    </header>
+
+    <main class="grid">
+      <!-- ChromaClock (メイン注目アプリ) -->
+      <a href="./clock/" class="app-card featured" id="cardChromaClock">
+        <div>
+          <div class="card-top">
+            <div class="card-icon" style="background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(129, 140, 248, 0.2)); border-color: rgba(56, 189, 248, 0.3);">
+              ⏰
+            </div>
+            <div class="clock-preview-badge" id="liveClockBadge">--:--:--</div>
+          </div>
+          <div class="card-body">
+            <h2>ChromaClock | オーロラグラデーション時計</h2>
+            <p>
+              現在時刻に合わせて空と光の色彩が美しく移り変わるアンビエント時計。
+              12/24時間切り替え、5種類のカラーテーマ、環境音（雨・波・カフェ）、全画面表示モードを搭載したモダンなWebアプリです。
+            </p>
+            <div class="tag-list">
+              <span class="tag">✨ Featured</span>
+              <span class="tag">🎨 Ambient UI</span>
+              <span class="tag">🕒 Real-time</span>
+              <span class="tag">🎵 Soundscapes</span>
+              <span class="tag">🖥️ Fullscreen</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 0.85rem; color: #94a3b8;">/clock/</span>
+          <span class="card-link-text">
+            アプリを開く
+            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Sample Project -->
+      <a href="./sample/" class="app-card" id="cardSample">
+        <div>
+          <div class="card-top">
+            <div class="card-icon">
+              🌐
+            </div>
+          </div>
+          <div class="card-body">
+            <h2>はじめてのサイト (Sample)</h2>
+            <p>
+              GitHub Pagesの初期テスト用Webページ。
+            </p>
+            <div class="tag-list">
+              <span class="tag">Sample</span>
+              <span class="tag">HTML</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size: 0.85rem; color: #94a3b8;">/sample/</span>
+          <span class="card-link-text">
+            ページを見る
+            <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </div>
+      </a>
+    </main>
+
+    <footer>
+      <p>© 2026 firm-masuda • Hosted on GitHub Pages</p>
+    </footer>
+  </div>
+
+  <script>
+    // カード内のミニ時計をリアルタイム更新
+    function updateMiniClock() {
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+      const badge = document.getElementById('liveClockBadge');
+      if (badge) badge.textContent = timeStr;
+    }
+    setInterval(updateMiniClock, 1000);
+    updateMiniClock();
+
+    // マウスホバー位置に光が追従するエフェクト
+    document.querySelectorAll('.app-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      });
+    });
+  </script>
+</body>
+</html>
