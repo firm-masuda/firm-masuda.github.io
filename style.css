@@ -11,6 +11,11 @@
   padding: 0;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-dark);
@@ -308,25 +313,25 @@ footer {
 
 @media (max-width: 640px) {
   .subpage-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 20px;
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 16px;
   }
 
   .subpage-banner-img {
-    width: 130px;
-    height: 130px;
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+  }
+
+  .subpage-header-text h1 {
+    font-size: 1.6rem;
   }
 
   .subpage-header-text .subtitle {
-    margin: 0 auto;
-    max-width: 580px;
-  }
-
-  .subpage-card {
-    align-items: center;
-    text-align: center;
+    margin: 0;
+    font-size: 0.95rem;
   }
 }
 
