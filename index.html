@@ -41,49 +41,7 @@
       padding: 60px 24px 80px;
     }
 
-    /* 背景のアンビエント発光 */
-    .ambient-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
 
-    .glow-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.35;
-      animation: float 16s ease-in-out infinite alternate;
-    }
-
-    .orb-1 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, #38bdf8 0%, transparent 70%);
-      top: -150px;
-      left: 10%;
-    }
-
-    .orb-2 {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, #818cf8 0%, transparent 70%);
-      bottom: -150px;
-      right: 10%;
-      animation-delay: -8s;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translate(0, 0) scale(1);
-      }
-
-      100% {
-        transform: translate(40px, 30px) scale(1.1);
-      }
-    }
 
     /* メインコンテナ */
     .container {
@@ -160,6 +118,139 @@
       line-height: 1.6;
     }
 
+    /* ショーケースセクション */
+    .showcase-section {
+      width: 100%;
+      margin: 40px 0 20px;
+    }
+
+    .showcase-divider {
+      border: none;
+      border-top: 1px dotted rgba(255, 255, 255, 0.25);
+      margin: 0;
+      width: 100%;
+    }
+
+    .showcase-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 36px 48px;
+      padding: 36px 0;
+    }
+
+    .showcase-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .showcase-img-link {
+      display: block;
+      flex-shrink: 0;
+      width: 170px;
+      height: 170px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .showcase-img-link:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .showcase-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .showcase-info {
+      flex: 1;
+      padding-top: 4px;
+    }
+
+    .showcase-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #f1f5f9;
+      text-decoration: none;
+      display: inline-block;
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    .showcase-title:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
+    .showcase-title.highlight {
+      color: #fb7185;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .showcase-title.highlight:hover {
+      color: #fda4af;
+    }
+
+    /* Contact me セクション */
+    .contact-container {
+      text-align: center;
+      padding: 36px 0 12px;
+    }
+
+    .contact-link {
+      display: inline-block;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fb7185;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .contact-link:hover {
+      color: #fda4af;
+      text-decoration: underline;
+      transform: translateY(-2px);
+    }
+
+    /* レスポンシブ対応 (モバイル・タブレット) */
+    @media (max-width: 768px) {
+      .showcase-row {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 24px 0;
+      }
+
+      .showcase-img-link {
+        width: 130px;
+        height: 130px;
+      }
+
+      .showcase-title {
+        font-size: 1.05rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .showcase-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .showcase-img-link {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
     /* フッター */
     footer {
       margin-top: 60px;
@@ -180,6 +271,60 @@
       <h1>firm M.M. Projects</h1>
       <p class="subtitle">Publishing Projects Built with Google AI Studio</p>
     </header>
+
+    <!-- ショーケースセクション -->
+    <main class="showcase-section">
+      <hr class="showcase-divider">
+
+      <!-- 1行目: Study AI Studio & Information Security -->
+      <div class="showcase-row">
+        <div class="showcase-item">
+          <a href="#" class="showcase-img-link" title="Showcase - Study AI Studio">
+            <img src="./images/showcase-ai-studio.jpg" alt="Google AI Studio" class="showcase-img">
+          </a>
+          <div class="showcase-info">
+            <a href="#" class="showcase-title highlight">Showcase - Study AI Studio</a>
+          </div>
+        </div>
+        <div class="showcase-item">
+          <a href="#" class="showcase-img-link" title="Showcase - Information Security">
+            <img src="./images/showcase-security.jpg" alt="Information Security" class="showcase-img">
+          </a>
+          <div class="showcase-info">
+            <a href="#" class="showcase-title">Showcase - Information Security</a>
+          </div>
+        </div>
+      </div>
+
+      <hr class="showcase-divider">
+
+      <!-- 2行目: Programming & Others -->
+      <div class="showcase-row">
+        <div class="showcase-item">
+          <a href="#" class="showcase-img-link" title="Showcase - Programing">
+            <img src="./images/showcase-programming.jpg" alt="Programming" class="showcase-img">
+          </a>
+          <div class="showcase-info">
+            <a href="#" class="showcase-title">Showcase - Programing</a>
+          </div>
+        </div>
+        <div class="showcase-item">
+          <a href="#" class="showcase-img-link" title="Showcase - Others">
+            <img src="./images/showcase-others.jpg" alt="Others" class="showcase-img">
+          </a>
+          <div class="showcase-info">
+            <a href="#" class="showcase-title">Showcase - Others</a>
+          </div>
+        </div>
+      </div>
+
+      <hr class="showcase-divider">
+
+      <!-- Contact me -->
+      <div class="contact-container">
+        <a href="#" class="contact-link">Contact me</a>
+      </div>
+    </main>
 
     <footer>
       <p>© 2026 firm-MM • Hosted on GitHub Pages</p>
