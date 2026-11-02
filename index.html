@@ -353,31 +353,9 @@
     </header>
 
     <footer>
-      <p>© 2026 firm-masuda • Hosted on GitHub Pages</p>
+      <p>© 2026 firm-MM • Hosted on GitHub Pages</p>
     </footer>
   </div>
-
-  <script>
-    // カード内のミニ時計をリアルタイム更新
-    function updateMiniClock() {
-      const now = new Date();
-      const pad = (n) => String(n).padStart(2, '0');
-      const timeStr = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-      const badge = document.getElementById('liveClockBadge');
-      if (badge) badge.textContent = timeStr;
-    }
-    setInterval(updateMiniClock, 1000);
-    updateMiniClock();
-
-    // マウスホバー位置に光が追従するエフェクト
-    document.querySelectorAll('.app-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-      });
-    });
-  </script>
 </body>
 
 </html>
