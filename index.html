@@ -5,27 +5,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>firm-MM | Web Apps</title>
-  <meta name="description" content="Google AI Studioで作成したアプリをを公開中。">
+  <meta name="description" content="Google AI Studioで作成したアプリを公開中。">
 
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;700;800&display=swap"
     rel="stylesheet">
 
   <style>
     :root {
       --bg-dark: #0a0d14;
-      --card-bg: rgba(255, 255, 255, 0.04);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --card-hover-border: rgba(147, 197, 253, 0.4);
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
       --accent-cyan: #38bdf8;
-      --accent-purple: #818cf8;
-      --accent-rose: #f43f5e;
-      --glow-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
     }
 
     * {
@@ -166,155 +160,6 @@
       line-height: 1.6;
     }
 
-    /* アプリカードグリッド */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
-    }
-
-    /* カードデザイン */
-    .app-card {
-      position: relative;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 32px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(16px);
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow: hidden;
-    }
-
-    .app-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255, 255, 255, 0.08), transparent 40%);
-      opacity: 0;
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
-    .app-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--card-hover-border);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.15);
-    }
-
-    .app-card:hover::before {
-      opacity: 1;
-    }
-
-    /* フィーチャーカード (ChromaClock) */
-    .app-card.featured {
-      grid-column: 1 / -1;
-      padding: 40px;
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.7) 100%);
-      border: 1px solid rgba(147, 197, 253, 0.2);
-    }
-
-    .card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
-    }
-
-    .card-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .clock-preview-badge {
-      font-family: 'Space Grotesk', monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 12px;
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--accent-cyan);
-      letter-spacing: 0.05em;
-    }
-
-    .card-body h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.7rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-      letter-spacing: -0.02em;
-    }
-
-    .card-body p {
-      color: var(--text-muted);
-      line-height: 1.65;
-      font-size: 1rem;
-      margin-bottom: 24px;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 28px;
-    }
-
-    .tag {
-      font-size: 0.78rem;
-      font-weight: 500;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      background: rgba(255, 255, 255, 0.05);
-      color: #cbd5e1;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding-top: 20px;
-      margin-top: auto;
-    }
-
-    .card-link-text {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--accent-cyan);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: gap 0.2s ease;
-    }
-
-    .app-card:hover .card-link-text {
-      gap: 12px;
-    }
-
-    .arrow-icon {
-      width: 18px;
-      height: 18px;
-      transition: transform 0.2s ease;
-    }
-
-    .app-card:hover .arrow-icon {
-      transform: translateX(4px);
-    }
-
     /* フッター */
     footer {
       margin-top: 60px;
@@ -322,26 +167,10 @@
       font-size: 0.85rem;
       color: #64748b;
     }
-
-    footer a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    footer a:hover {
-      color: var(--text-main);
-    }
   </style>
 </head>
 
 <body>
-  <!-- 背景発光 -->
-  <div class="ambient-bg">
-    <div class="glow-orb orb-1"></div>
-    <div class="glow-orb orb-2"></div>
-  </div>
-
   <div class="container">
     <header>
       <div class="badge">
