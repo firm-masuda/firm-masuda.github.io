@@ -229,3 +229,98 @@ footer {
   font-size: 0.85rem;
   color: #64748b;
 }
+
+/* サブページ共通スタイル */
+.back-nav {
+  margin-bottom: 32px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--text-main);
+  transform: translateX(-3px);
+}
+
+.subpage-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 48px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin: 32px 0;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+}
+
+.subpage-hero-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  margin-bottom: 24px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--accent-cyan);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.subpage-description {
+  max-width: 600px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin-bottom: 24px;
+}
+
+.contact-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+}
+
+.contact-email-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  margin-top: 16px;
+}
+
+.contact-email-btn:hover {
+  background: rgba(56, 189, 248, 0.25);
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(56, 189, 248, 0.2);
+}
